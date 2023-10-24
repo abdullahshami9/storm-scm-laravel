@@ -19,76 +19,121 @@ const routes = [
     path: "/",
     name: "/",
     redirect: "/login",
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/tables",
     name: "Tables",
     component: Tables,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/billing",
     name: "Billing",
     component: Billing,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/rtl-page",
     name: "RTL",
     component: RTL,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/notifications",
     name: "Notifications",
     component: Notifications,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/profile",
     name: "Profile",
     component: Profile,
+    meta:{
+      requiresAuth:true
+  }
   },
   {
     path: "/sign-in",
     name: "SignIn",
     component: SignIn,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/sign-up",
     name: "SignUp",
     component: SignUp,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/login",
     name: "Login",
-    component: Login
+    component: Login,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/signup",
     name: "Signup",
-    component: Signup
+    component: Signup,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/password-forgot",
     name: "Password Forgot",
-    component: PasswordForgot
+    component: PasswordForgot,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/password-reset",
     name: "Password Reset",
-    component: PasswordReset
+    component: PasswordReset,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: "/user-profile",
     name: "User Profile",
-    component: UserProfile
+    component: UserProfile,
+    meta:{
+      requiresAuth:false
+  }
   },
   {
     path: '/users',
     name: "Users",
-    component: Users
+    component: Users,
+    meta:{
+      requiresAuth:true
+  }
   }
 ];
 
@@ -97,5 +142,14 @@ const router = createRouter({
   routes,
   linkActiveClass: "active",
 });
+
+router.beforeEach((to)=>{
+  if(to.meta.requiresAuth && !localStorage.getItem('user_free')){
+     return {name:"Login"}
+  }
+  if(to.meta.requiresAuth==false && localStorage.getItem('user_free')){
+      return {name:"Dashboard"}
+  }
+  });
 
 export default router;

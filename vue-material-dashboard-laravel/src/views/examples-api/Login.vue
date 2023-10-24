@@ -1,15 +1,23 @@
 <template>
-    <navbar btnBackground="bg-gradient-success" />
+    <!-- <navbar btnBackground="bg-gradient-success" /> -->
     <div class="page-header align-items-start min-vh-100" style="
                       background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');
                     ">
         <span class="mask bg-gradient-dark opacity-6"></span>
 
-        <div class="container mb-6">
+        <div class="container mb-5">
             <div class="row">
+                <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" ref="button"  @click="saveChanges">
+  Launch demo modal
+</button> -->
 
-                <div class="header pt-10 w-100  d-flex justify-content-center">
-                    <div class="container">
+<!-- data-bs-toggle="modal" data-bs-target="#exampleModal" -->
+
+
+
+                <div class="header pt-5 w-100  d-flex justify-content-center">
+                    <!-- <div class="container">
                         <div class="header-body text-center mb-7">
                             <div class="row justify-content-center">
                                 <div class="text-center" style="margin-bottom: 5px;">
@@ -23,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-lg-4 col-md-8 col-12 mx-auto pb-10">
@@ -56,20 +64,20 @@
                             <Form role="form" class="text-start mt-3" :validation-schema="schema" @submit="handleLogin"
                                 @invalid-submit="badSubmit">
                                 <div class="mb-3">
-                                    <material-input-field id="email" v-model:value="user.email" type="email" label="Email"
-                                        name="email" variant="static" />
+                                    <material-input-field id="userid" v-model:value="user.userid" type="text" label="userid"
+                                        name="userid" variant="static" />
                                 </div>
                                 <div class="mb-3">
                                     <material-input-field id="password" v-model:value="user.password" type="password"
                                         label="Password" name="password" variant="static" />
                                 </div>
-                                <material-switch id="rememberMe" name="Remember Me">Remember me</material-switch>
+                                <!-- <material-switch id="rememberMe" name="Remember Me">Remember me</material-switch> -->
                                 <div class="text-center">
-                                    <material-button class="my-4 mb-2" variant="gradient" color="success" full-width>
+                                    <material-button class="my-3 mb-2" variant="gradient" color="success" full-width>
                                         <span>Sign in</span>
                                     </material-button>
                                 </div>
-                                <p class="mt-4 text-sm text-center">
+                                <!-- <p class="mt-4 text-sm text-center">
                                     Don't have an account?
                                     <router-link :to="{ name: 'Signup' }"
                                         class="text-success text-gradient font-weight-bold">Sign
@@ -79,7 +87,7 @@
                                     <router-link :to="{ name: 'Password Forgot' }"
                                         class="text-success text-gradient font-weight-bold">Recover
                                         Password</router-link>
-                                </p>
+                                </p> -->
                             </Form>
                         </div>
                     </div>
@@ -87,7 +95,7 @@
             </div>
         </div>
 
-        <footer class="footer position-absolute bottom-2 py-2 w-100">
+        <!-- <footer class="footer position-absolute bottom-2 py-2 w-100">
             <div class="container">
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-12 col-md-6 my-auto">
@@ -127,35 +135,59 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer> -->
     </div>
+    <!-- Modal -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" @click="saveChanges">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- <modal v-if="showModal" ></modal> -->
+
 </template>
 
+<!-- import Navbar from "@/examples/PageLayout/Navbar.vue"; -->
+<!-- Navbar, -->
 <script>
-import Navbar from "@/examples/PageLayout/Navbar.vue";
 import MaterialInputField from "@/components/MaterialInputField.vue";
-import MaterialSwitch from "@/components/MaterialSwitch.vue";
+// import MaterialSwitch from "@/components/MaterialSwitch.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
 import showSwal from "@/mixins/showSwal";
 import { mapMutations } from "vuex";
-import { Form } from "vee-validate"
-import * as Yup from 'yup'
+import { Form } from "vee-validate";
+import * as Yup from 'yup';
 
 export default {
     name: "Login",
     components: {
-        Navbar,
         MaterialInputField,
-        MaterialSwitch,
+        // MaterialSwitch,
         MaterialButton,
         Form,
     },
     data() {
         return {
-            user: { email: "admin@jsonapi.com", password: "secret" },
+            showModal:false,
+            user: { userid:'' , password: '' },
             schema: Yup.object().shape({
-                email: Yup.string().email("Email has to be a valid email address").required("Email is a required input"),
-                password: Yup.string().required("Password is a required input")
+                userid: Yup.string().required("User Id is a required"),
+                password: Yup.string().required("Password is a required")
             }),
         };
     },
@@ -164,6 +196,7 @@ export default {
             return this.$store.state.auth.loggedIn;
         }
     },
+
     beforeMount() {
         this.toggleEveryDisplay();
         this.toggleHideConfig();
@@ -173,15 +206,43 @@ export default {
         this.toggleHideConfig();
     },
     methods: {
+        saveChanges() {
+            // const modal = this.$refs.modal;
+            // modal.show();
+            console.log(this.showModal);
+            // this.showModal=true;
+            console.log(this.showModal);
+
+            // const button = this.$refs.button;
+
+// Set the data-bs-toggle and data-bs-target attributes on the button element
+// button.setAttribute('data-bs-toggle', 'modal');
+// button.setAttribute('data-bs-target', '#exampleModal');
+// button.click();
+
+    // const modal = document.getElementById('exampleModal');
+    //     modal.setAttribute('data-bs-dismiss', 'modal');
+    //     modal.click();
+  },
         ...mapMutations(["toggleEveryDisplay", "toggleHideConfig"]),
         async handleLogin() {
             try {
-                await this.$store.dispatch('auth/login', this.user);
+             await this.$store.dispatch('auth/login', this.user);
+             const user = JSON.parse(localStorage.getItem('user_free'));
+             if(user){
                 this.$router.push({ name: 'Dashboard' })
-            } catch (error) {
+             }
+             else{
                 showSwal.methods.showSwal({
                     type: "error",
                     message: "Invalid credentials!",
+                    width: 500
+                });
+             }
+            } catch (error) {
+                showSwal.methods.showSwal({
+                    type: "error",
+                    message: "Error from api",
                     width: 500
                 });
             }

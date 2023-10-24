@@ -8,8 +8,8 @@ export default {
 
   async login(user) {
     var response = await axios.post(API_URL + '/login', {
-      email: user.email,
-      password: user.password
+      usersLoginId: user.userid,
+      usersPassword: user.password
     }, 
     {
       headers: {
@@ -17,8 +17,8 @@ export default {
         "Content-Type": "application/vnd.api+json",
       }
     });
-    if (response.data.access_token) {
-      localStorage.setItem('user_free', JSON.stringify(response.data.access_token));
+    if (response.data.token) {
+      localStorage.setItem('user_free', JSON.stringify(response.data.token));
     }
     return response.data;
   },
